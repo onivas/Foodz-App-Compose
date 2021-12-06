@@ -1,13 +1,12 @@
-package com.savinoordine.foodzappcompose
+package com.savinoordine.foodzappcompose.ui.meals
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.savinoordine.foodzappcompose.ui.theme.FoodzAppComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -15,24 +14,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FoodzAppComposeTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
-                }
+                MealsCategoryScreen()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun MealsCategoryScreen() {
+    val viewModel: MealsCategoryViewModel = viewModel()
+    val meals = viewModel.fetchMeals()
+    Text(text = "Hello")
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     FoodzAppComposeTheme {
-        Greeting("Android")
+        MealsCategoryScreen()
     }
 }
