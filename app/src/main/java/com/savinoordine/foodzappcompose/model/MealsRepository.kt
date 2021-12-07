@@ -7,7 +7,7 @@ class MealsRepository
 constructor(private val apiService: MealsApiImpl = MealsApiImpl()) {
 
     // no suspending request made yet
-    fun getMeals(): MealsCategoryResponse? {
-        return apiService.fetchMeals().execute().body() // bad practice (so far)
+    suspend fun getMeals(): MealsCategoryResponse {
+        return apiService.fetchMeals()
     }
 }

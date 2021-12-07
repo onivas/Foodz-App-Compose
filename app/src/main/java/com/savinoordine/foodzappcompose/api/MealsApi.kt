@@ -1,7 +1,6 @@
 package com.savinoordine.foodzappcompose.api
 
 import com.savinoordine.foodzappcompose.model.response.MealsCategoryResponse
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -19,12 +18,12 @@ class MealsApiImpl {
         apiService = retrofit.create(MealsApi::class.java)
     }
 
-    fun fetchMeals(): Call<MealsCategoryResponse> {
+    suspend fun fetchMeals(): MealsCategoryResponse {
         return apiService.fetchMeals()
     }
 
     interface MealsApi {
         @GET("categories.php")
-        fun fetchMeals(): Call<MealsCategoryResponse>
+        suspend fun fetchMeals(): MealsCategoryResponse
     }
 }
