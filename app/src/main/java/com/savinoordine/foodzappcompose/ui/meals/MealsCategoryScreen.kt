@@ -1,15 +1,24 @@
 package com.savinoordine.foodzappcompose.ui.meals
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -32,6 +41,8 @@ fun MealsCategoryScreen() {
 
 @Composable
 fun MealCategory(meal: MealResponse) {
+    var isExpanded by remember { mutableStateOf(false) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -39,7 +50,9 @@ fun MealCategory(meal: MealResponse) {
             .padding(4.dp),
         elevation = 4.dp,
     ) {
-        Row {
+        Row(
+            modifier = Modifier.animateContentSize()
+        ) {
 
             Image(
                 painter = rememberImagePainter(meal.imageUrl),
@@ -47,14 +60,34 @@ fun MealCategory(meal: MealResponse) {
                 modifier = Modifier
                     .size(88.dp)
                     .padding(4.dp)
+                    .align(Alignment.CenterVertically)
             )
 
-            Column(modifier = Modifier.align(Alignment.CenterVertically)) {
+            Column(
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .fillMaxWidth(0.8F)
+            ) {
                 Text(
                     text = meal.name,
                     style = MaterialTheme.typography.h6
                 )
+                Text(
+                    text = meal.description,
+                    style = MaterialTheme.typography.subtitle2,
+                    textAlign = TextAlign.Start,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = if (isExpanded) 10 else 4,
+                )
             }
+            Icon(
+                imageVector = if (isExpanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(Alignment.Top)
+                    .clickable { isExpanded = !isExpanded },
+            )
         }
     }
 }

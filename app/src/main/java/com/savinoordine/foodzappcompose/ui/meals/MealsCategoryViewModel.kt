@@ -15,14 +15,11 @@ constructor(private val mealsRepository: MealsRepository = MealsRepository()) : 
     val mealsState: MutableState<List<MealResponse>> = mutableStateOf(emptyList())
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            val meals = fetchMeals()
-            mealsState.value = meals
-
-        }
+        fetchMeals()
     }
 
-    private suspend fun fetchMeals(): List<MealResponse> {
-        return mealsRepository.getMeals().categories
+    private fun fetchMeals() = viewModelScope.launch(Dispatchers.IO) {
+        val meals = mealsRepository.getMeals().categories
+        mealsState.value = meals
     }
 }
