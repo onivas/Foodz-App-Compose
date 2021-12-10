@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
 
         const val MEAL_DETAIL_CATEGORY_ID = "meal_category_id"
         const val MEAL_DETAIL_ROUTE = "destination_meal_detail/{$MEAL_DETAIL_CATEGORY_ID}"
+        const val NAVIGATE_TO_MEAL_DETAIL_ROUTE = "destination_meal_detail"
     }
 }
 
@@ -43,7 +44,7 @@ private fun FoodzApp() {
     ) {
         composable(route = MainActivity.MEAL_LIST_ROUTE) {
             MealsCategoryScreen() { mealId ->
-                navController.navigate("${MainActivity.MEAL_DETAIL_ROUTE}/$mealId")
+                navController.navigate("${MainActivity.NAVIGATE_TO_MEAL_DETAIL_ROUTE}/$mealId")
 
             }
         }
