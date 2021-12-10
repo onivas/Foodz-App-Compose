@@ -11,7 +11,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
@@ -28,26 +27,29 @@ import com.savinoordine.foodzappcompose.ui.theme.FoodzAppComposeTheme
 
 
 @Composable
-fun MealsCategoryScreen() {
+fun MealsCategoryScreen(navigationCallback: (String) -> Unit) {
     val viewModel: MealsCategoryViewModel = viewModel()
     val meals = viewModel.mealsState.value
 
     LazyColumn(contentPadding = PaddingValues(8.dp)) {
         items(meals) { meal ->
-            MealCategory(meal)
+            MealCategory(meal, navigationCallback)
         }
     }
 }
 
 @Composable
-fun MealCategory(meal: MealResponse) {
+fun MealCategory(meal: MealResponse, navigationCallback: (String) -> Unit) {
     var isExpanded by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(align = Alignment.CenterVertically)
-            .padding(4.dp),
+            .padding(4.dp)
+            .clickable {
+                navigationCallback(meal.id)
+            },
         elevation = 4.dp,
     ) {
         Row(
@@ -96,6 +98,6 @@ fun MealCategory(meal: MealResponse) {
 @Composable
 fun DefaultPreview() {
     FoodzAppComposeTheme {
-        MealCategory(MealResponse("", "name", "", "description"))
+        MealCategory(MealResponse("", "name", "", "description")) {}
     }
 }
